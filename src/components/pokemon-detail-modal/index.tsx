@@ -30,9 +30,6 @@ export default function PokemonDetailModal({ visible, pokemon, onClose }: Props)
   const decorPrimaryStyle = { backgroundColor: theme.decorPrimary };
   const decorSecondaryStyle = { backgroundColor: theme.decorSecondary };
   const arrowIconStyle = { color: theme.border };
-  const iconSizeStyle = theme.iconSize
-    ? { width: theme.iconSize, height: theme.iconSize }
-    : undefined;
   const imageStyle = [
     styles.detailImageStyle,
     isSylveon ? styles.detailImageCover : styles.detailImageContain,
@@ -130,10 +127,7 @@ export default function PokemonDetailModal({ visible, pokemon, onClose }: Props)
                 <View style={styles.detailTypeRow}>
                   <Text style={styles.detailType}>Tipo: {pokemon.type}</Text>
                   {theme.icon ? (
-                    <Image
-                      source={theme.icon}
-                      style={[styles.detailTypeIcon, iconSizeStyle]}
-                    />
+                    <Image source={theme.icon} style={styles.detailTypeIcon} />
                   ) : null}
                 </View>
                 <View style={styles.detailPokedexBlock}>

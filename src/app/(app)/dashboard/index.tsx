@@ -324,7 +324,7 @@ export default function Dashboard() {
 
         <Button
           title="Ver time"
-          onPress={() => router.push('/team/index')}
+          onPress={() => router.push('/team')}
           style={styles.teamButton}
         />
         <Button title="Sair" onPress={signOut} style={styles.logoutButton} />

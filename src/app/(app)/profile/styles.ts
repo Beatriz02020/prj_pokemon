@@ -52,6 +52,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  avatarImage: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+  },
   avatarText: {
     fontSize: 28,
     fontFamily: fontFamily.bold,
@@ -66,6 +71,10 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fontFamily.regular,
     color: '#6B7280',
+  },
+  photoButton: {
+    alignSelf: 'stretch',
+    marginTop: 8,
   },
   infoCard: {
     backgroundColor: '#FFFFFF',

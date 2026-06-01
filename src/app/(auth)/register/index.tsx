@@ -14,7 +14,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   if (isAuthenticated) {
-    return <Redirect href="/dashboard" />;
+    return <Redirect href="/team" />;
   }
 
   const handleRegister = () => {};

@@ -13,18 +13,18 @@ export default function Login() {
   const [error, setError] = useState('');
 
   if (isAuthenticated) {
-    return <Redirect href="/dashboard" />;
+    return <Redirect href="/team" />;
   }
 
   const handleLogin = () => {
     const ok = signIn(email, password);
     if (!ok) {
-      setError('Preencha email e senha para continuar.');
+      setError('Email ou senha invalidos.');
       return;
     }
 
     setError('');
-    router.replace('/dashboard');
+    router.replace('/team');
   };
 
   return (
@@ -41,7 +41,7 @@ export default function Login() {
           resizeMode="contain"
         />
         <Text style={styles.title}>Login</Text>
-        <Text style={styles.subtitle}>Acesse o app para ver o dashboard</Text>
+        <Text style={styles.subtitle}>Acesse o app para ver o time</Text>
       </View>
 
       <View style={styles.form}>

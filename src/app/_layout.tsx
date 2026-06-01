@@ -8,6 +8,7 @@ import {
   Inter_700Bold,
 } from '@expo-google-fonts/inter';
 
+import HamburgerMenu from '@/src/components/hamburger-menu';
 import { AuthProvider } from '@/src/contexts/auth';
 
 void SplashScreen.preventAutoHideAsync();
@@ -31,7 +32,16 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack
+        screenOptions={{
+          headerShown: true,
+          headerTransparent: true,
+          headerShadowVisible: false,
+          headerTitle: '',
+          headerLeft: () => null,
+          headerRight: () => <HamburgerMenu />,
+        }}
+      />
     </AuthProvider>
   );
 }

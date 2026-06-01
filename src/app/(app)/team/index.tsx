@@ -270,7 +270,7 @@ export default function Team() {
         />
         <Button
           title="Ver perfil"
-          onPress={() => router.push('/profile/index')}
+          onPress={() => router.push('/profile')}
           style={styles.navButton}
         />
       </View>

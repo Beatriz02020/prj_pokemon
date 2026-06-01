@@ -15,9 +15,6 @@ const adjustedImageIds = new Set(['470', '133']);
 export default function PokemonCard({ pokemon, onPress }: Props) {
   const theme = getPokemonTheme(pokemon.type);
   const hasAdjustedImage = adjustedImageIds.has(pokemon.id);
-  const iconSizeStyle = theme.iconSize
-    ? { width: theme.iconSize, height: theme.iconSize }
-    : undefined;
 
   return (
     <Pressable
@@ -49,10 +46,7 @@ export default function PokemonCard({ pokemon, onPress }: Props) {
             Tipo: {pokemon.type}
           </Text>
           {theme.icon ? (
-            <Image
-              source={theme.icon}
-              style={[styles.cardTypeIcon, iconSizeStyle]}
-            />
+            <Image source={theme.icon} style={styles.cardTypeIcon} />
           ) : null}
         </View>
       </View>
