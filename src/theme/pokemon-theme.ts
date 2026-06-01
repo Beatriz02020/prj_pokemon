@@ -36,6 +36,7 @@ const THEMES: Record<string, PokemonTheme> = {
     panel: '#eff9ff',
     decorPrimary: '#dbeafe',
     decorSecondary: '#bae6fd',
+    icon: require('../../assets/images/water.png'),
   },
   planta: {
     border: '#34d399',
@@ -57,6 +58,18 @@ const THEMES: Record<string, PokemonTheme> = {
     panel: '#fff1f2',
     decorPrimary: '#ffe4e6',
     decorSecondary: '#fecdd3',
+    icon: require('../../assets/images/fire.png'),
+  },
+  inseto: {
+    border: '#a3e635',
+    surface: '#f7fee7',
+    subtitle: '#3f6212',
+    headerGradient: ['#bef264', '#f7fee7'],
+    headerText: '#365314',
+    panel: '#ecfccb',
+    decorPrimary: '#d9f99d',
+    decorSecondary: '#bef264',
+    icon: require('../../assets/images/bug.png'),
   },
   normal: {
     border: '#a8a29e',
@@ -72,7 +85,17 @@ const THEMES: Record<string, PokemonTheme> = {
   },
 };
 
+const TYPE_ALIASES: Record<string, keyof typeof THEMES> = {
+  fairy: 'fada',
+  water: 'agua',
+  grass: 'planta',
+  fire: 'fogo',
+  normal: 'normal',
+  bug: 'inseto',
+};
+
 export const getPokemonTheme = (type?: string): PokemonTheme => {
   const key = type?.trim().toLowerCase();
-  return (key && THEMES[key]) || THEMES.fada;
+  const mappedKey = (key && (TYPE_ALIASES[key] ?? key)) || 'normal';
+  return THEMES[mappedKey] || THEMES.normal;
 };

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Image } from 'react-native';
-import { Link, Redirect } from 'expo-router';
+import { View, Text, TextInput, Image, ScrollView } from 'react-native';
+import { Link, Redirect, router } from 'expo-router';
 
 import Button from '@/src/components/button';
 import { useAuth } from '@/src/contexts/auth';
-import { loginStyles as styles } from './styles';
+import { styles } from './styles';
 
 export default function Login() {
   const { isAuthenticated, signIn } = useAuth();
@@ -18,14 +18,25 @@ export default function Login() {
 
   const handleLogin = () => {
     const ok = signIn(email, password);
-    setError(ok ? '' : 'Preencha email e senha para continuar.');
+    if (!ok) {
+      setError('Preencha email e senha para continuar.');
+      return;
+    }
+
+    setError('');
+    router.replace('/dashboard');
   };
 
   return (
     <View style={styles.container}>
+       <ScrollView
+             keyboardShouldPersistTaps="handled"
+             keyboardDismissMode="on-drag"
+             showsVerticalScrollIndicator={false}
+           >
       <View style={styles.header}>
         <Image
-          source={require('../../assets/images/Pokemon_logo.png')}
+          source={require('../../../../assets/images/Pokemon_logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -67,7 +78,7 @@ export default function Login() {
           </Link>
         </View>
       </View>
+      </ScrollView> 
     </View>
   );
 }
-

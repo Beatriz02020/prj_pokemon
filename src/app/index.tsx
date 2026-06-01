@@ -5,5 +5,5 @@ import { useAuth } from '@/src/contexts/auth';
 export default function Index() {
   const { isAuthenticated } = useAuth();
 
-  return <Redirect href={isAuthenticated ? '/dashboard' : '/login'} />;
+  return <Redirect href={isAuthenticated ? '/team/index' : '/login'} />;
 }

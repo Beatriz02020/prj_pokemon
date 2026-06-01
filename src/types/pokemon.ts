@@ -6,6 +6,6 @@ export type Pokemon = {
   type: string;
   cardImage: ImageSourcePropType;
   images: ImageSourcePropType[];
-  description: string;
-  descriptionAlt: string;
+  description?: string;
+  descriptionAlt?: string;
 };

@@ -47,6 +47,12 @@ export default function PokemonDetailModal({ visible, pokemon, onClose }: Props)
     }
   }, [pokemon]);
 
+  const imageList = pokemon?.images?.length
+    ? pokemon.images
+    : pokemon?.cardImage
+      ? [pokemon.cardImage]
+      : [];
+
   const handleToggleDescriptionOptions = () => {
     setShowDescriptionOptions((prev) => !prev);
   };
@@ -57,15 +63,18 @@ export default function PokemonDetailModal({ visible, pokemon, onClose }: Props)
   };
 
   const handleNextImage = () => {
-    if (!pokemon || pokemon.images.length === 0) {
+    if (imageList.length === 0) {
       return;
     }
 
-    setImageIndex((prev) => (prev + 1) % pokemon.images.length);
+    setImageIndex((prev) => (prev + 1) % imageList.length);
   };
 
   const descriptionTexts = pokemon
-    ? [pokemon.description, pokemon.descriptionAlt]
+    ? [
+        pokemon.description ?? 'Descricao indisponivel.',
+        pokemon.descriptionAlt ?? 'Descricao indisponivel.',
+      ]
     : [];
   const activeDescription =
     descriptionIndex === null
@@ -73,8 +82,8 @@ export default function PokemonDetailModal({ visible, pokemon, onClose }: Props)
       : descriptionTexts[descriptionIndex] ?? '';
   const activeDescriptionLabel =
     descriptionIndex === null ? 'Versão Pokedex' : DESCRIPTION_OPTIONS[descriptionIndex];
-  const activeImage = pokemon?.images?.[imageIndex] ?? pokemon?.images?.[0];
-  const hasMultipleImages = (pokemon?.images?.length ?? 0) > 1;
+  const activeImage = imageList[imageIndex] ?? imageList[0];
+  const hasMultipleImages = imageList.length > 1;
 
   return (
     <Modal transparent animationType="fade" visible={visible} onRequestClose={onClose}>

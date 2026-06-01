@@ -6,15 +6,7 @@ const fontFamily = {
   bold: 'Inter_700Bold',
 };
 
-export const loginStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F4F6F8',
-    padding: 24,
-    paddingTop: 42,
-    justifyContent: 'flex-start',
-    gap: 24,
-  },
+export const styles = StyleSheet.create({
   registerContainer: {
     flexGrow: 1,
     backgroundColor: '#F4F6F8',
@@ -76,11 +68,6 @@ export const loginStyles = StyleSheet.create({
     fontFamily: fontFamily.regular,
     color: '#111827',
   },
-  error: {
-    color: '#FFF1F2',
-    fontSize: 13,
-    fontFamily: fontFamily.regular,
-  },
   button: {
     marginTop: 4,
   },
@@ -101,32 +88,5 @@ export const loginStyles = StyleSheet.create({
     fontFamily: fontFamily.semiBold,
     color: '#FFFFFF',
     textDecorationLine: 'underline',
-  },
-});
-
-export const dashboardStyles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#F4F6F8',
-    padding: 24,
-    paddingTop: 67,
-    gap: 34,
-  },
-  header: {
-    gap: 6,
-  },
-  title: {
-    fontSize: 28,
-    fontFamily: fontFamily.bold,
-    color: '#111827',
-  },
-  subtitle: {
-    fontSize: 16,
-    fontFamily: fontFamily.regular,
-    color: '#4B5563',
-  },
-  logoutButton: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: 24,
   },
 });

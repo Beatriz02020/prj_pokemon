@@ -4,7 +4,7 @@ import { Link, Redirect } from 'expo-router';
 
 import Button from '@/src/components/button';
 import { useAuth } from '@/src/contexts/auth';
-import { loginStyles as styles } from './styles';
+import { styles } from './styles';
 
 export default function Register() {
   const { isAuthenticated } = useAuth();
@@ -28,7 +28,7 @@ export default function Register() {
     >
       <View style={styles.header}>
         <Image
-          source={require('../../assets/images/Pokemon_logo.png')}
+          source={require('../../../../assets/images/Pokemon_logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
