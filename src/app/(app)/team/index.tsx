@@ -9,7 +9,8 @@ import type { Pokemon } from '@/src/types/pokemon';
 import { styles } from './styles';
 
 const API_BASE_URL = 'https://pokeapi.co/api/v2';
-const POKEMON_LIMIT = 25;
+const POKEMON_FETCH_LIMIT = 60;
+const POKEMON_TARGET = 25;
 const TEAM_LIMIT = 5;
 
 const TYPE_LABELS: Record<string, string> = {
@@ -107,13 +108,25 @@ async function mapWithConcurrency<T, R>(
   return results;
 }
 
-const fetchPokemonDetails = async (url: string): Promise<Pokemon> => {
+const fetchPokemonDetails = async (url: string): Promise<Pokemon | null> => {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Nao foi possivel carregar os pokemons.');
   }
 
   const data = await response.json();
+  const speciesUrl = data?.species?.url as string | undefined;
+  if (speciesUrl) {
+    const speciesResponse = await fetch(speciesUrl);
+    if (!speciesResponse.ok) {
+      throw new Error('Nao foi possivel carregar os pokemons.');
+    }
+
+    const speciesData = await speciesResponse.json();
+    if (speciesData?.evolves_from_species) {
+      return null;
+    }
+  }
   return mapPokemonFromApi(data);
 };
 
@@ -139,7 +152,7 @@ export default function Team() {
 
       try {
         const listResponse = await fetch(
-          `${API_BASE_URL}/pokemon?limit=${POKEMON_LIMIT}`,
+          `${API_BASE_URL}/pokemon?limit=${POKEMON_FETCH_LIMIT}`,
         );
         if (!listResponse.ok) {
           throw new Error('Nao foi possivel carregar os pokemons.');
@@ -156,9 +169,10 @@ export default function Team() {
         });
 
         const filtered = details.filter((pokemon): pokemon is Pokemon => Boolean(pokemon));
+        const limited = filtered.slice(0, POKEMON_TARGET);
 
         if (isActive) {
-          setPokemons(filtered);
+          setPokemons(limited);
         }
       } catch {
         if (isActive) {
@@ -262,18 +276,6 @@ export default function Team() {
           })
         : null}
 
-      <View style={styles.navRow}>
-        <Button
-          title="Ver dashboard"
-          onPress={() => router.push('/dashboard')}
-          style={styles.navButton}
-        />
-        <Button
-          title="Ver perfil"
-          onPress={() => router.push('/profile')}
-          style={styles.navButton}
-        />
-      </View>
     </ScrollView>
   );
 }

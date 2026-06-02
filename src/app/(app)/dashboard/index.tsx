@@ -321,13 +321,6 @@ export default function Dashboard() {
             <Text style={styles.statusText}>Nenhum pokemon encontrado.</Text>
           </View>
         ) : null}
-
-        <Button
-          title="Ver time"
-          onPress={() => router.push('/team')}
-          style={styles.teamButton}
-        />
-        <Button title="Sair" onPress={signOut} style={styles.logoutButton} />
       </ScrollView>
 
       <PokemonDetailModal
