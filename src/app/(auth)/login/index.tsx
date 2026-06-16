@@ -16,8 +16,8 @@ export default function Login() {
     return <Redirect href="/team" />;
   }
 
-  const handleLogin = () => {
-    const ok = signIn(email, password);
+  const handleLogin = async () => {
+    const ok = await signIn(email, password);
     if (!ok) {
       setError('Email ou senha invalidos.');
       return;

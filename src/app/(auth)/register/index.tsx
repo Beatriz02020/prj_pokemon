@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { ScrollView, View, Text, TextInput, Image } from 'react-native';
-import { Link, Redirect } from 'expo-router';
+import { Link, Redirect, router } from 'expo-router';
 
 import Button from '@/src/components/button';
 import { useAuth } from '@/src/contexts/auth';
 import { styles } from './styles';
 
 export default function Register() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, register } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +17,16 @@ export default function Register() {
     return <Redirect href="/team" />;
   }
 
-  const handleRegister = () => {};
+  const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      return;
+    }
+
+    const ok = await register(name, email, password);
+    if (ok) {
+      router.replace('/team');
+    }
+  };
 
   return (
     <ScrollView

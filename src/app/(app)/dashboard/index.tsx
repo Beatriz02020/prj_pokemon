@@ -147,7 +147,7 @@ const fetchPokemonDescriptions = async (id: string) => {
 };
 
 export default function Dashboard() {
-  const { isAuthenticated, signOut } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

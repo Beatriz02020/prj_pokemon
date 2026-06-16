@@ -1,9 +1,13 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
+import * as api from '@/src/services/api';
 
 type AuthContextValue = {
   isAuthenticated: boolean;
   user: User | null;
-  signIn: (email: string, password: string) => boolean;
+  token: string | null;
+  userId: string | null;
+  signIn: (email: string, password: string) => Promise<boolean>;
+  register: (name: string, email: string, password: string) => Promise<boolean>;
   signOut: () => void;
 };
 
@@ -27,31 +31,51 @@ const TEST_USER = {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const signIn = (email: string, password: string) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const normalizedPassword = password.trim();
-    const canSignIn =
-      normalizedEmail === TEST_USER.email && normalizedPassword === TEST_USER.password;
+  const signIn = async (email: string, password: string) => {
+    try {
+      const resp = await api.login(email, password);
+      // expect resp to include some token and user id, but be defensive
+      const authToken = resp?.token ?? resp?.accessToken ?? null;
+      const id = resp?.userId ?? resp?.id ?? resp?.user?.id ?? null;
+      const name = resp?.username ?? resp?.user?.name ?? email;
 
-    if (canSignIn) {
       setIsAuthenticated(true);
-      setUser({ name: TEST_USER.name, email: TEST_USER.email });
-      return true;
-    }
+      setUser({ name, email });
+      setToken(authToken);
+      setUserId(id);
 
-    setIsAuthenticated(false);
-    setUser(null);
-    return false;
+      return true;
+    } catch {
+      setIsAuthenticated(false);
+      setUser(null);
+      setToken(null);
+      setUserId(null);
+      return false;
+    }
+  };
+
+  const register = async (name: string, email: string, password: string) => {
+    try {
+      await api.register(email, password);
+      // auto-login after register
+      return await signIn(email, password);
+    } catch {
+      return false;
+    }
   };
 
   const signOut = () => {
     setIsAuthenticated(false);
     setUser(null);
+    setToken(null);
+    setUserId(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, signIn, signOut }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, token, userId, signIn, register, signOut }}>
       {children}
     </AuthContext.Provider>
   );
