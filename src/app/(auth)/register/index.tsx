@@ -9,7 +9,7 @@ import { styles } from './styles';
 export default function Register() {
   const { isAuthenticated, register } = useAuth();
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -22,7 +22,7 @@ export default function Register() {
       return;
     }
 
-    const ok = await register(name, email, password);
+    const ok = await register(username, name, password);
     if (ok) {
       router.replace('/team');
     }
@@ -57,15 +57,14 @@ export default function Register() {
           style={styles.input}
         />
 
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>Usuario</Text>
         <TextInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="seu@email.com"
+          value={username}
+          onChangeText={setUsername}
+          placeholder="seu usuario"
           placeholderTextColor="#9AA1AA"
           autoCapitalize="none"
           autoCorrect={false}
-          keyboardType="email-address"
           style={styles.input}
         />
 

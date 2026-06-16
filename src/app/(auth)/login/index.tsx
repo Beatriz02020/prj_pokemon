@@ -8,7 +8,7 @@ import { styles } from './styles';
 
 export default function Login() {
   const { isAuthenticated, signIn } = useAuth();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -17,9 +17,9 @@ export default function Login() {
   }
 
   const handleLogin = async () => {
-    const ok = await signIn(email, password);
+    const ok = await signIn(username, password);
     if (!ok) {
-      setError('Email ou senha invalidos.');
+      setError('Usuario ou senha invalidos.');
       return;
     }
 
@@ -45,15 +45,14 @@ export default function Login() {
       </View>
 
       <View style={styles.form}>
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>Usuario</Text>
         <TextInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="seu@email.com"
+          value={username}
+          onChangeText={setUsername}
+          placeholder="seu usuario"
           placeholderTextColor="#9AA1AA"
           autoCapitalize="none"
           autoCorrect={false}
-          keyboardType="email-address"
           style={styles.input}
         />
 
