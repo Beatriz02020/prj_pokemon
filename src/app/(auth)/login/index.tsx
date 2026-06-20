@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Image, ScrollView } from 'react-native';
+import { View, Text, TextInput, Image, ScrollView, Platform } from 'react-native';
 import { Link, Redirect, router } from 'expo-router';
 
 import Button from '@/src/components/button';
@@ -7,17 +7,30 @@ import { useAuth } from '@/src/contexts/auth';
 import { styles } from './styles';
 
 export default function Login() {
-  const { isAuthenticated, signIn } = useAuth();
+  const { isAuthenticated, isLoading, signIn } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (isLoading) {
+    return null;
+  }
 
   if (isAuthenticated) {
     return <Redirect href="/team" />;
   }
 
   const handleLogin = async () => {
-    const ok = await signIn(username, password);
+    if (!username.trim() || !password) {
+      setError('Informe usuario e senha para continuar.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    const ok = await signIn(username.trim(), password);
+    setIsSubmitting(false);
+
     if (!ok) {
       setError('Usuario ou senha invalidos.');
       return;
@@ -27,13 +40,15 @@ export default function Login() {
     router.replace('/team');
   };
 
+  const isWeb = Platform.OS === 'web';
+
   return (
-    <View style={styles.container}>
-       <ScrollView
-             keyboardShouldPersistTaps="handled"
-             keyboardDismissMode="on-drag"
-             showsVerticalScrollIndicator={false}
-           >
+    <ScrollView
+      contentContainerStyle={[styles.container, isWeb && styles.containerWeb]}
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.header}>
         <Image
           source={require('../../../../assets/images/Pokemon_logo.png')}
@@ -68,7 +83,12 @@ export default function Login() {
 
         {error.length > 0 ? <Text style={styles.error}>{error}</Text> : null}
 
-        <Button title="Entrar" onPress={handleLogin} style={styles.button} />
+        <Button
+          title={isSubmitting ? 'Entrando...' : 'Entrar'}
+          onPress={handleLogin}
+          disabled={isSubmitting}
+          style={styles.button}
+        />
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>Nao tem conta?</Text>
@@ -77,7 +97,6 @@ export default function Login() {
           </Link>
         </View>
       </View>
-      </ScrollView> 
-    </View>
+    </ScrollView>
   );
 }

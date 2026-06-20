@@ -1,17 +1,24 @@
 import { useState } from 'react';
-import { ScrollView, View, Text, TextInput, Image } from 'react-native';
+import { ScrollView, View, Text, TextInput, Image, Platform } from 'react-native';
 import { Link, Redirect, router } from 'expo-router';
 
 import Button from '@/src/components/button';
 import { useAuth } from '@/src/contexts/auth';
+import { bootstrapInitialCaptures } from '@/src/utils/pokemonBootstrap';
 import { styles } from './styles';
 
 export default function Register() {
-  const { isAuthenticated, register } = useAuth();
+  const { isAuthenticated, isLoading, register } = useAuth();
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (isLoading) {
+    return null;
+  }
 
   if (isAuthenticated) {
     return <Redirect href="/team" />;
@@ -19,18 +26,43 @@ export default function Register() {
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
+      setError('As senhas nao coincidem.');
       return;
     }
 
-    const ok = await register(username, name, password);
-    if (ok) {
-      router.replace('/team');
+    if (!username.trim() || !password || !name.trim()) {
+      setError('Preencha todos os campos.');
+      return;
     }
+
+    setIsSubmitting(true);
+    setError('');
+
+    const result = await register(username.trim(), name.trim(), password);
+
+    if (!result.success) {
+      setError('Nao foi possivel criar a conta.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (result.userId) {
+      try {
+        await bootstrapInitialCaptures(result.userId);
+      } catch (bootstrapError) {
+        console.error('bootstrap error:', bootstrapError);
+      }
+    }
+
+    setIsSubmitting(false);
+    router.replace('/team');
   };
+
+  const isWeb = Platform.OS === 'web';
 
   return (
     <ScrollView
-      contentContainerStyle={styles.registerContainer}
+      contentContainerStyle={[styles.registerContainer, isWeb && styles.registerContainerWeb]}
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
       showsVerticalScrollIndicator={false}
@@ -88,7 +120,14 @@ export default function Register() {
           style={styles.input}
         />
 
-        <Button title="Criar conta" onPress={handleRegister} style={styles.button} />
+        {error.length > 0 ? <Text style={styles.error}>{error}</Text> : null}
+
+        <Button
+          title={isSubmitting ? 'Cadastrando...' : 'Criar conta'}
+          onPress={handleRegister}
+          disabled={isSubmitting}
+          style={styles.button}
+        />
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>Ja tem conta?</Text>

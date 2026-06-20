@@ -14,6 +14,11 @@ export const styles = StyleSheet.create({
     paddingTop: 67,
     gap: 24,
   },
+  containerWeb: {
+    maxWidth: 1400,
+    alignSelf: 'center',
+    width: '100%',
+  },
   header: {
     gap: 6,
   },
@@ -42,6 +47,11 @@ export const styles = StyleSheet.create({
       height: 6,
     },
     elevation: 2,
+  },
+  teamCardWeb: {
+    maxWidth: 600,
+    alignSelf: 'center',
+    width: '100%',
   },
   teamHeader: {
     gap: 6,
@@ -72,8 +82,21 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.semiBold,
     color: '#0C4A6E',
   },
+  cardsContainer: {
+    width: '100%',
+    gap: 20,
+  },
+  cardsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 20,
+    justifyContent: 'center',
+  },
   cardWrapper: {
     position: 'relative',
+  },
+  cardWrapperWeb: {
+    width: '100%',
   },
   selectedBadge: {
     position: 'absolute',
@@ -105,6 +128,15 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.semiBold,
     color: '#B91C1C',
     textAlign: 'center',
+  },
+  successText: {
+    fontSize: 13,
+    fontFamily: fontFamily.semiBold,
+    color: '#15803d',
+    textAlign: 'center',
+  },
+  button: {
+    alignSelf: 'stretch',
   },
   navRow: {
     flexDirection: 'row',

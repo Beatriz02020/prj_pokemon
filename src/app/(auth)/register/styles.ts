@@ -16,6 +16,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     gap: 24,
   },
+  registerContainerWeb: {
+    maxWidth: 500,
+    alignSelf: 'center',
+    width: '100%',
+  },
   header: {
     gap: 67,
     alignItems: 'center',
@@ -67,6 +72,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fontFamily.regular,
     color: '#111827',
+  },
+  error: {
+    color: '#FFF1F2',
+    fontSize: 13,
+    fontFamily: fontFamily.regular,
   },
   button: {
     marginTop: 4,

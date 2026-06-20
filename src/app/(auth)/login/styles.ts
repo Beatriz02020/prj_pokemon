@@ -15,6 +15,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     gap: 24,
   },
+  containerWeb: {
+    maxWidth: 500,
+    alignSelf: 'center',
+    width: '100%',
+  },
   header: {
     gap: 67,
     alignItems: 'center',

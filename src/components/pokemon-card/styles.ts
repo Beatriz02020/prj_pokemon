@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
       height: 10,
     },
     elevation: 3,
+    width: '100%',
   },
   cardPressed: {
     opacity: 0.9,

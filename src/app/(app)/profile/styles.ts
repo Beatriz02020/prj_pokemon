@@ -14,6 +14,11 @@ export const styles = StyleSheet.create({
     paddingTop: 67,
     gap: 24,
   },
+  containerWeb: {
+    maxWidth: 500,
+    alignSelf: 'center',
+    width: '100%',
+  },
   header: {
     gap: 6,
   },
@@ -71,6 +76,9 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fontFamily.regular,
     color: '#6B7280',
+  },
+  statsLoader: {
+    marginTop: 4,
   },
   photoButton: {
     alignSelf: 'stretch',

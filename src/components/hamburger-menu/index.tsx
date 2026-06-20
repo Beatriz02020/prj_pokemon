@@ -42,8 +42,7 @@ export default function HamburgerMenu() {
 
   const handleSignOut = () => {
     setIsOpen(false);
-    signOut();
-    router.replace('/login');
+    void signOut().then(() => router.replace('/login'));
   };
 
   return (
